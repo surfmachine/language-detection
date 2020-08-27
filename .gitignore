@@ -1,0 +1,14 @@
+# Operating System files
+.DS_Store
+Thumbs.db
+
+
+# Project folders
+data/download/*.bz2
+
+
+# Python Cache
+!**/__pycache__/
+
+# Jupyter Notebook
+.ipynb_checkpoints

@@ -1,0 +1,6 @@
+Model,de,fr,it,en
+LangDetect,0.978,0.997,0.99,0.994
+LangDetectSpacy,0.972,0.997,0.991,0.992
+LangFromStopwords,0.977,0.999,0.936,0.994
+LangFromChars,0.903,0.987,0.973,1.0
+AzureTextAnalytics,0.971,0.999,0.996,0.999

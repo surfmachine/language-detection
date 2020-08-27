@@ -1,0 +1,6 @@
+Model,Score,Total,Time
+LangDetect,986,1000,3.58
+LangDetectSpacy,985,1000,10.76
+LangFromStopwords,978,1000,0.09
+LangFromChars,952,1000,57.88
+AzureTextAnalytics,991,1000,135.20

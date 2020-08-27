@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#C:/ieu/surfmachine/python-language-detection/libs/AbstractLanguageDetectionModel.py</OriginalElement>
+  <nodes>
+    <node x="1268.6675146273212" y="-7.819384380564713">libs.langfromstopwords.LangFromStopwordsModel.LangFromStopwordsModel</node>
+    <node x="860.4870262019842" y="-151.01500890358687">libs.AbstractLanguageDetectionModel.AbstractLanguageDetectionModel</node>
+    <node x="1305.0" y="79.0">libs.azuretextanalytics.AzureTextAnalyticsModel.AzureTextAnalyticsModel</node>
+    <node x="926.0" y="79.0">libs.langdetect.LangDetectModel.LangDetectModel</node>
+    <node x="516.946324090562" y="-8.80641058254895">libs.langfromchars.LangFromCharsModel.LangFromCharsModel</node>
+    <node x="442.0" y="79.0">libs.langdetectspacy.LangDetectSpacyModel.LangDetectSpacyModel</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="libs.langdetect.LangDetectModel.LangDetectModel" target="libs.AbstractLanguageDetectionModel.AbstractLanguageDetectionModel">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="libs.langfromchars.LangFromCharsModel.LangFromCharsModel" target="libs.AbstractLanguageDetectionModel.AbstractLanguageDetectionModel">
+      <point x="0.0" y="-14.5" />
+      <point x="728.2017298397354" y="-52.66369880437543" />
+      <point x="908.7" y="-52.66369880437543" />
+      <point x="-196.79999999999995" y="14.5" />
+    </edge>
+    <edge source="libs.langdetectspacy.LangDetectSpacyModel.LangDetectSpacyModel" target="libs.AbstractLanguageDetectionModel.AbstractLanguageDetectionModel">
+      <point x="0.0" y="-14.5" />
+      <point x="674.0" y="59.0" />
+      <point x="1007.0999999999999" y="59.0" />
+      <point x="-98.40000000000009" y="14.5" />
+    </edge>
+    <edge source="libs.langfromstopwords.LangFromStopwordsModel.LangFromStopwordsModel" target="libs.AbstractLanguageDetectionModel.AbstractLanguageDetectionModel">
+      <point x="0.0" y="-14.5" />
+      <point x="1521.667514627321" y="-44.76748918850171" />
+      <point x="1305.2610786059527" y="-44.7674891885016" />
+      <point x="196.79999999999995" y="14.5" />
+    </edge>
+    <edge source="libs.azuretextanalytics.AzureTextAnalyticsModel.AzureTextAnalyticsModel" target="libs.AbstractLanguageDetectionModel.AbstractLanguageDetectionModel">
+      <point x="0.0" y="-14.5" />
+      <point x="1568.5" y="59.0" />
+      <point x="1203.9" y="59.0" />
+      <point x="98.40000000000009" y="14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0131443298969072" x="1353.2203001780717" y="-8.500000000000114" />
+  <SelectedNodes />
+  <Categories />
+</Diagram>
+

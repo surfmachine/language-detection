@@ -1,0 +1,17 @@
+File,AvgChars,AvgWords
+articles_de_1k.csv,117.282,16.806
+articles_fr_1k.csv,118.253,19.599
+articles_it_1k.csv,119.635,19.002
+articles_en_1k.csv,119.063,20.232
+articles_de_5k.csv,116.9902,16.9888
+articles_fr_5k.csv,112.9676,19.3242
+articles_it_5k.csv,119.2314,19.0684
+articles_en_5k.csv,118.8406,19.9728
+articles_de_10k.csv,116.7229,16.7955
+articles_fr_10k.csv,110.9358,18.4756
+articles_it_10k.csv,119.5495,19.152
+articles_en_10k.csv,118.9502,19.9505
+articles_de_100k.csv,116.40556,16.75641
+articles_fr_100k.csv,116.93365,19.26814
+articles_it_100k.csv,119.58188,19.04569
+articles_en_100k.csv,118.85534,20.26543

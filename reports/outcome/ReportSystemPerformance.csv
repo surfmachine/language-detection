@@ -1,0 +1,6 @@
+Model,Time,CPU,Memory Peak
+LangDetect,4.31,8.33,499253
+LangDetectSpacy,12.83,8.33,1336925
+LangFromStopwords,0.1,8.31,495957
+LangFromChars,65.28,17.18,282294433
+AzureTextAnalytics,146.7,1.18,594964

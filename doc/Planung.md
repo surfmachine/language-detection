@@ -103,41 +103,5 @@ Der Lösungsansatz besteht aus folgenden Teilaufgaben:
 26.08.2020 |  3.00h  | Markdown Modelle und Performance fertig gestellt
 Total      |154.50h  | Aufwand
 
-## TODO
-- Doc Unittests  : Neue MD erstellen
-- Doc Readme     : Abstract/Zusammenfassung fertig stellen
-  - Inklusive Einfachheit der Anbindung
-- Doc Grundlagen : 
-  - TrompPechenizkiy_LIGA_Benelearn11.pdf (siehe C:\Users\ti\Dropbox\bfh\cas-pml\10-Semesterarbeit\Referenzen)
-  - https://machinelearning.apple.com/research/language-identification-from-very-short-strings
-  - Alorithmus Langdetect
-  - weitere Algorithmen (siehe Apple Info)
-  - Experte: statistische Verteilung von Buchstaben (mit 20% Wortschatz, 80% Konversion möglich,
-    unabhängig von der Sprache)
-   - NLP Theorie Sentiment Analysis
-   - Check
-     https://towardsdatascience.com/how-i-trained-a-language-detection-ai-in-20-minutes-with-a-97-accuracy-fdeca0fb7724
-     https://medium.com/@amarbudhiraja/supervised-language-identification-for-short-and-long-texts-with-code-626f9c78c47c 
-     https://becominghuman.ai/a-handy-pre-trained-model-for-language-identification-cadd89db9db8 
-   - bi-LSTMs vs. N-Grams
-     https://machinelearning.apple.com/research/language-identification-from-very-short-strings 
-   - Slide Shares
-     - https://de.slideshare.net/shuyo/language-detection-library-for-java
-     - https://de.slideshare.net/shuyo/short-text-language-detection-with-infinitygram-12949447
-     - Folie 63: https://de.slideshare.net/shuyo/short-text-language-detection-with-infinitygram-12949447
-   - Fasttext
-     - https://fasttext.cc/blog/2017/10/02/blog-post.html
-     - https://pypi.org/project/fasttext/
-
-- Misc
-  - https://arxiv.org/pdf/1804.08186.pdf
-  - https://web.stanford.edu/~jurafsky 
-  - https://web.stanford.edu/~jurafsky/slp3/ed3book.pdf 
-  - https://www.youtube.com/playlist?list=PLoROMvodv4rOFZnDyrlW3-nI7tMLtmiJZ
-  - https://www.researchgate.net/publication/314347365_Language_Identification-A_Brief_Review 
-
-- Präsention erstelle:
-  - Dauer Präsentation 15-20' anschliessend Diskussion 10'
-
 ---
 [Zum Seitenanfang](#Planung-und-Arbeitsrapporte)  &nbsp; | &nbsp;  [Zum Hauptmenu](../README.md)

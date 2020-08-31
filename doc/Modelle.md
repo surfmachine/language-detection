@@ -25,7 +25,7 @@
 ## Übersicht
 Verglichen werden die Mobiliar interne Bibliotheken **LangFromStopwords** und **LangFormChars** mit den externen Bibliotheken 
 **LangDetect** und **LangDetectSpacy** sowie dem Microsoft **Azure Text Analytics** Service. Nicht überprüft wird die **TextBlob**
-Bibliothek, da diese deprecated ist.
+Bibliothek, da diese veraltet ist und nur limitierte Aufrufe zulässt.
 
 Für die Messung der Modelle wurde ein einheitliche Schnittstelle eingeführt. Je Bibliothek finden verschiedene Messungen des Score 
 und der Wahrscheinlichkeit statt. Anschliessend folgen die [Auswertungen](#Auswertungen) der Bibliotheken.
@@ -36,26 +36,26 @@ Details zu den Performance Messungen siehe [Performance](Performance.md).
 ## Bibliotheken
 
 ### LangFromStopwords
-Basierend auf einer Stopwortliste je Sprache wird anhand der gefunden Häufigkeit die Sprache ermittelt. Zusätzlich zum 
+Basierend auf einer **Wörterbuch** je Sprache wird anhand der gefunden Häufigkeit die Sprache ermittelt. Zusätzlich zum 
 Sprachcode kann auch die Wahrscheinlichkeit ausgegeben werden. 
 
-Der Ansatz mit der Stopwortliste funktioniert gut falls der Text genügend lang und die Frequenz der Stopwörter hoch 
-genug ist. Bei spezifischen Andwendungsfällen können die Stopwortlisten entsprechend  angepasst/ergänzt werden. 
+Der Ansatz mit den Wortlisten funktioniert gut falls der Text genügend lang und die Frequenz der Wörter hoch genug ist. 
+Bei spezifischen Anwendungsfällen können die Wortlisten entsprechend angepasst oder ergänzt werden. 
 
-Die aktuellen Stopwortlisten sind im Projekt unter `libs/langfromstopwords/mobi/Data` abgelegt. Interessant ist die 
-Anzahl Stopworte je Sprache. Wie die folgende Tabelle zeigt, sind diese sehr unterschiedlich:
+Die aktuellen Wortlisten sind im Projekt unter `libs/langfromstopwords/mobi/Data` abgelegt. Interessant ist die 
+Anzahl Worte je Sprache. Wie die folgende Tabelle zeigt, sind diese sehr unterschiedlich:
 
-Stopwort Datei           | Anzahl Einträge
------------------------- | ---------------  
-english_stop_words.csv   | 571
-french_stop_words.csv    | 496 
-german_stop_words.csv    | 1940 
-italian_stop_words.csv   | 273 
+Sprache        | Anzahl Einträge
+-------------- | ---------------  
+Deutsch        | 1940 
+Französisch    | 496 
+Italienisch    | 273 
+English        | 571
 
 Lizenz: 
 > Die Bibliothek ist eine Eigenentwicklung der Mobiliar und nicht frei verfügbar.
 
-Das Script [LangFromStopwordsDemo.py](../libs/langfromstopwords/LangFromStopwordsDemo.py) zeigt die grundsätzliche 
+Das Skript [LangFromStopwordsDemo.py](../libs/langfromstopwords/LangFromStopwordsDemo.py) zeigt die grundsätzliche 
 Verwendung der Bibliothek:  
 ```python
 from mobi.LangFromStopwords import LangFromStopwords
@@ -104,15 +104,16 @@ en : Hello World, this is amazing
 
 
 ### LangFromChars
-Die Biblothek ist angelehnt and die [WhatTheLang](#https://github.com/indix/whatthelang) Library und adaptiert an die Mobiliar 
-interne Laufzeitumgebung / Infrastruktur. Verwendet wird ein Zeichensequenz basiertes BiGRU (bidirectional gated recurrent unit) 
-Modell, welches mit öffentlichen [TED](#https://www.ted.com) Daten trainiert wurde. Die Optimierung erfolgt mit einem ADAM Optimizer 
-mit Nesterov Momentum. Der Loss ist Standard log-loss. Die Sprachen werden unabhängig von einander trainiert.
+Die Bibliothek ist angelehnt and die [WhatTheLang](#https://github.com/indix/whatthelang) Library und adaptiert an die Mobiliar 
+interne Laufzeitumgebung / Infrastruktur. Verwendet wird ein Zeichensequenz basiertes **neuronales Netzwerk** (BiGRU: 
+bidirectional gated recurrent unit) welches mit öffentlichen [TED](#https://www.ted.com) Daten trainiert wurde. Die 
+Sprachen wurden dabei unabhängig voneinander trainiert.
+
 
 Implementierungsdetails:
 - Für die Prognose werden die ersten 100 Character verwendet.
 - Punkte, Zahlen und nicht druckbare Zeichen werden nicht berücksichtigt.
-- Das Modell ist tolerant gegenüber Rechtschreibefehlern so dass für die Voraussage der Textsprache kein Preprocessing notwendig ist.
+- Das Modell ist tolerant gegenüber Rechtschreibefehlern so dass für die Voraussage der Textsprache kein Vorverarbeitung notwendig ist.
 
 Lizenz: 
 > Die Bibliothek ist eine Eigenentwicklung der Mobiliar und nicht frei verfügbar.
@@ -167,9 +168,9 @@ Spracherkennung wird ein **Naive Bayse Algorithmus mit Character n-Gramm** verwe
 Wikipedia Artikeln in den entsprechenden Sprachen. Weitere Details sind in der folgenden 
 [Präsentation](https://www.slideshare.net/shuyo/language-detection-library-for-java) ersichtlich.
 
-Der Algorithmus ist nicht deterministisch, was bedeuted, dass man bei mehreren Aufrufen verschiedene Resultate erhalten 
+Der Algorithmus ist nicht deterministisch, was bedeutet, dass man bei mehreren Aufrufen verschiedene Resultate erhalten 
 kann. Das ist vor allem bei sehr kurzen oder mehrdeutigen Texten der Fall. Mit dem Befehl `DetectorFactory.seed = 0` 
-kann man bei bedarf konsistente Resultate erzwingen. 
+kann man bei Bedarf konsistente Resultate erzwingen. 
 
 Lizenz: 
 > Die Bibliothek ist unter der [Apache Software Lizenz](https://pypi.org/search/?c=License+%3A%3A+OSI+Approved+%3A%3A+Apache+Software+License)
@@ -225,11 +226,16 @@ de : Ein, zwei, drei, vier
 
 
 ### LangDetectSpacy
-Die [Spacy](https://spacy.io/) Bibliothek bietet viele Funktionen an, um Text für Deep Learning Lösungen vorzubereiten. 
-Spacy interoperiert mit TenserFlow, PyTorch, scikit-learn und weitern Python Bibliotheken. Man kann auf einfache
-Weise statistische Modelle für eine vielzahl von NLP (Natural language processing) Aufgaben nutzen und erstellen. 
-Spacy untersützt über 59 Sprachen, die Version 2 bietet neuronale Modelle für `tagging, parsing and entity recognition` 
-Aufgaben sowie vieles mehr an.
+Die [Spacy](https://spacy.io/) Bibliothek bietet eine Vielzahl von statischen und (ab Version 2) neuronalen Modellen an, 
+um Natural Language Processing (NLP) Aufgaben zu lösen. Je nach Anwendungsfall werden die benötigten Modelle von der 
+Spacy  Homepage geladen und installiert.  Neben der Spracherkennung bietet Spacy viele weitere [Linguistic Features](https://spacy.io/usage/linguistic-features) an, 
+die zu Verarbeitungsketten  (Pipelines) kombiniert werden können:
+
+![](img/spacy-pipeline.svg)
+
+Per Default unterstützt Spacy über 59 Sprachen. Für die Erkennung der Sprache eines erstellen `Doc` Objektes greift 
+Spacy auf die **langdetect** Bibliothek zurück, welche ja bekanntlich einen **Naive Bayes Algorithmus mit Character 
+n-Gramm** verwendet. Weitere Details hierzu siehe [Spacy LangDetect](https://github.com/Abhijit-2592/spacy-langdetect).
 
 Lizenz: 
 > Die Bibliothek ist unter einer [MIT Lizenz](https://github.com/explosion/spaCy/blob/master/LICENSE) verfügbar.
@@ -361,7 +367,7 @@ urllib.error.HTTPError: HTTP Error 429: Too Many Requests
 
 Da die Library einen Google Online Dienst verwendet, sieht es so aus, dass die erlaubte Quote überschritten ist. 
 > Da die Funktion zur Spracherkennung **_deprecated_** ist und umfangreiche Messungen
-> nicht möglich sind, wird auf eine weitere Untersuchung der Biblothek verzichtet.  
+> nicht möglich sind, wird auf eine weitere Untersuchung der Bibliothek verzichtet.  
 
 
 ### Azure Text Analytics
@@ -375,9 +381,9 @@ Text an. Es werden folgenden Hauptfunktionen zur Verfügung gestellt:
 - Erkennung benannter Entitäten
 
 Die API ist ein Teil von Azure Cognitive Services, einer Sammlung von Algorithmen für maschinelles Lernen und künstliche 
-Intelligenz (KI) in der Cloud. Die Modelle und Dienste werden auch in den Microsoft eigenen Produkten eingesetzt.
-Die Cloud Dienste werden entweder via REST API aufgerufen oder mittels Client Library, welche vom Provider zur Verfügung 
-gestellt wird und die REST Aufrufe kappselt. 
+Intelligenz (KI) in der Cloud. Die Modelle und Dienste werden auch in den Microsoft eigenen Produkten eingesetzt und
+basieren auf **neuronalen Netzwerk Technologien**. Die Cloud Dienste werden entweder via REST API aufgerufen oder mittels 
+Client Library, welche vom Provider zur Verfügung gestellt wird und die REST Aufrufe kapselt. 
 
 Lizenz: 
 > Der Service ist ein kommerzieller Dienst von Microsoft und entsprechend kostenpflichtig.
@@ -529,7 +535,7 @@ class AbstractLanguageDetectionModel:
 ```
 
 #### Language Detection Modell Hierachie
-Jedes Modell realisiert eine entpsprechende Unterklasse:
+Jedes Modell realisiert eine entsprechende  Unterklasse:
 - [AzureTextAnalyticsModel.py](../libs/azuretextanalytics/AzureTextAnalyticsModel.py)
 - [LangDetectModel.py](../libs/langdetect/LangDetectModel.py)
 - [LangDetectSpacyModel.py](../libs/langdetectspacy/LangDetectSpacyModel.py)
@@ -541,8 +547,8 @@ Damit ergibt sich folgende Klassen Hierarchie:
 ![Modell Hierachie](img/uml-modell-hierarchy.png)
 
 
-#### Modell Facotry
-Für die Instanzierung der einzelnen Modelle wird die Klasse [ModelFactory.py](../libs/ModelFactory.py) genutzt:
+#### Modell Factory
+Für die Instanziierung der einzelnen Modelle wird die Klasse [ModelFactory.py](../libs/ModelFactory.py) genutzt:
 ```python
 import os
 import sys
@@ -594,7 +600,7 @@ gesetzt wird, alle zu prüfenden Bibliotheken.
 > Damit kann das Projekt im öffentlichen Repository ausgecheckt und ausgeführt werden, ohne das die Mobiliar Bibliotheken und der 
 >kostenpflichtige Azure Service in Betrieb sind. 
 
-> Im weiteren ist es auf einfache Art und Weise möglich, weitere Bibliotheken einzubinden, ohne die ganzen Reports anpassen zu müsssen.
+> Im weiteren ist es auf einfache Art und Weise möglich, weitere Bibliotheken einzubinden, ohne die ganzen Reports anpassen zu müssen.
 
 ### Durchführung
 
@@ -639,8 +645,8 @@ Die Auswertung zeigt die Trefferquote je Modell und Sprache für jeweils 1'000 A
 - Die Scores für Englisch und Französisch sind bei allen Modellen besser als für Italienisch und Deutsch. 
 - Vor allen für Deutsch fällt die Trefferquote deutlich ab. Am besten schneiden hier LangDetect gefolgt von LangFromStopwords ab.
   LangFromChars ist mit einem Accuracy von rund 90% ungenügend.
-- Beim Italienisch schneidet LangFromStopwords am schlechtesten ab. Ein Grund ist sicher die geringe Anzahl Stopwörter (273) der 
-italienischen Stopwortliste. Mit weiteren Einträgen könnte hier der Score sicher noch verbessert werden.
+- Beim Italienisch schneidet LangFromStopwords am schlechtesten ab. Ein Grund ist sicher die geringe Anzahl Wörter (273) der 
+italienischen Wortliste. Mit weiteren Einträgen könnte hier der Score sicher noch verbessert werden.
 - Beim **Englisch** schneiden **alle Modelle** mit einem Score von **über 99%** sehr gut ab.  
 
 
@@ -650,37 +656,22 @@ Deutsch, Französisch, Italienisch und Englisch in Bezug auf die Anzahl Wörter:
 ![ReportScorePerWord](../reports/graphic/ReportScorePerWord.png)
 
 #### Interpretation
-- Die Graifk zeigt sehr gut wo die **Grenzen der Spracherkennung in Bezug auf wenig Textinformationen** liegen.
+- Die Grafik zeigt sehr gut wo die **Grenzen der Spracherkennung in Bezug auf wenig Textinformationen** liegen.
 - Alle Modelle weisen bei wenigen Worten einen eher schlechten Score auf.
 - Mit Abstand **am besten** ist der **Azure Text Analytics** Service, der mit 7 Worten einen Score von 95% erreicht. Die anderen 
 Bibliotheken erreichen diesen Wert erst sehr spät. 
-- Je nach Anwendungsfall ist es wichtig, dass bereits mit wenigen Worten (zum Beispiel bei einem ChatBot) die Sprache erkannt wird. 
+- Je nach Anwendungsfall ist es wichtig, dass bereits mit wenigen Worten (zum Beispiel bei einem Chat Bot) die Sprache erkannt wird. 
 Bei den untersuchten Bibliotheken eignet sich für einen solchen Fall eigentlich nur die Azure Lösung. 
 - Für andere Anwendungsfälle, wie zum Beispiel die Verarbeitung von Dokumenten, ist dies weniger Problematisch da dort "genügend"
 Text vorhanden ist.  
 
 ### Average probabilities
-Bei den folgenden Auswertungen wird die vom Modell zurückgegebene Wahrscheinlchkeit der Prognose untersucht. Hier wurden die
-Modelle mit 1'000 gemischten Artikeltexten in den Sprachen Deutsch, Französisch, Italienisch und Englisch getestet. Dabei wurde die 
-durchschnittliche Wahrscheinlichkeit der Treffer (Hits) als auch der falschen Prognosen (Fails) berechnet:  
-![ReportScoreProbabilityAverageProbability](../reports/graphic/ReportScoreProbabilityAverageProbability.png)
+Bei dieser Auswertung wird die vom Modell zurückgegebene Wahrscheinlichkeit der Prognose untersucht. Die Modelle wurden 
+mit 1'000 gemischten Artikeltexten in den Sprachen Deutsch, Französisch, Italienisch und Englisch getestet. Dabei wurde 
+die durchschnittliche Wahrscheinlichkeit der Treffer (Hits) als auch der falschen Prognosen (Fails) berechnet. 
 
-#### Interpretation
-- Ausser bei der LangFromStopWords Bibliothek liegt die Wahrscheinlichkeit der Treffer nahe bei 1. 
-- Bei den falschen Prognosen (Fails) ist die Spanne der Wahrschinlichkeiten welche die Modell angeben sehr unterschiedlich. 
-- **LangDetect, LangDetectSpacy und LangFromChars** haben eine durchschnittliche Wahrscheinlichkeit der falsche Prognosen von zirka 80%.
-Die Wahrscheinlichkeit der Treffer ist nahe bei 1. Damit kann man **gut anhand der Wahrscheinlichkeit unterscheiden** ob die 
-Prognose eher zutrifft oder nicht.
-- Bei LangFromStopwords sind beide Wahrscheinlichkeitswerte sehr tief. Zwar ist auch hier die Differenz zwischen Hits und Fails 
-gross, so dass man die Prognose einschätzen kann. Die absoluten Werte sind aber tief und führen zu einer gewissen Verunsicherung.
-- Beim **Azure Text Analytics** Service sind beide Wahrscheinlichkeiten sehr hoch. Die Differenz der Wahrscheinlichkeiten zwischen Hits 
-und Fails ist gering, so dass die **Angabe der Wahrscheinlickkeit keinen grossen Mehrnutzen** bringt. 
+>Aus Zeitgründen wird dieser Report im Rahmen dieser Arbeit nicht weiter ausgearbeitet. Bei Interesse können die  Daten am besten mit einem Density Plot ausgewertet werden.
 
-#### Schwankungen 
-Die Schwankungen der Wahrscheinlichkeiten der einzelnen Modellen zeigen der folgende Boxplot und Linienplot. Vor allem beim 
-Linienplot sieht man die tieferen Werte und grosse Schwankungsbreite der LangFromStopWords Bibliothek sehr gut: 
-![ReportScoreProbabilityBoxplot](../reports/graphic/ReportScoreProbabilityBoxPlot.png)
-![ReportScoreProbabilityLineplot](../reports/graphic/ReportScoreProbabilityLinePlot.png)
 
 ### Fazit
 Betrachtet man die verschiedenen Auswertungen zusammen, kann folgendes festgehalten werden:
@@ -691,18 +682,23 @@ Betrachtet man die verschiedenen Auswertungen zusammen, kann folgendes festgehal
    Worten eine Trefferquote von 95%.   
   - Bei den gemischten Texten in Deutsch, Französisch, Italienisch und Englisch erreicht der Service eine 
     **allgemeine Trefferquote von über 99%**. 
-- **Gute Resultate** liefern auch die öffentlichen **LangDetect und LangDetectSpacy** Bibliotheken und mit einer 
+- **Gute Resultate** liefern auch die öffentlichen **LangDetect und LangDetectSpacy** Bibliotheken mit einer 
   **allgemeinen Trefferquote von rund 98.5%**.
-- **LangFromStopwords** folgt knapp dahinter mit einer **allgemeinen Trefferquote von 97.8%**. Einzig beim Italienisch fällt die 
-  Bibliothek zurück. Das liegt aber sehrwahrscheinlich an den kleinen Stopwortliste.   
+- **LangFromStopwords** folgt knapp dahinter mit einer **allgemeinen Trefferquote von 97.8%**. 
+  - Einzig beim Italienisch fällt die Bibliothek zurück. Das liegt aber sehr wahrscheinlich an den kleinen Wortliste.   
 - Die **LangFromChars** Bibliothek **fällt mit einer allgemeinen Trefferquote von 95.2% deutlich ab**.
 
-**Insgesammt überzeugen die beiden Mobiliar internen Bibliotheken mit den verwendeten Testdaten nicht. Falls Sie mit spezifischen
+**Insgesamt überzeugen die beiden Mobiliar internen Bibliotheken mit den verwendeten Testdaten nicht. Falls Sie mit spezifischen
 Mobiliardaten nicht besser abschneiden steht mit der LangDetect Bibliothek eine gute, kostenlose Alternative zur Verfügung.** 
 
 Wenn es Einschränkungen bei den Ressourcen (Zeit, Memory, CPU) gibt ist allenfalls die **LangFromStopwords** Bibliothek eine 
 interessante Variante. Details hierzu siehe [Performance](Performance.md). Ausserdem kann das Modell durch anpassen der 
 Stopwortlisten einfacher auf spezifisches Vokabular ausgerichtet werden als die anderen Bibliotheken.
+
+Ein interessanter Aspekt ist auch die Betrachtung der jeweilige **Architektur**. 
+- Der Ansatz mit der Wortliste (LangFromStopwords) kann zwar mit der Trefferquote nicht ganz vorne mithalten, ist aber in Sachen Performance der Spitzenreiter. 
+- Der Ansatz mit der Klassifizierung (LangDetect und LangDetectSpacy) schneidet gut ab, zeigt aber seine Limiten bei wenig Worten. 
+- Am meisten überzeugt der Azure Service mit den neuronalen Netzwerk Technologien. Das dies aber «per se» nicht einfach so funktioniert sieht man gut am Beispiel der LangFromChars Bibliothek.
 
 ---
 [Zum Seitenanfang](#Modelle)  &nbsp; | &nbsp;  [Zum Hauptmenu](../README.md)

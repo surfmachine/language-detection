@@ -50,8 +50,8 @@ Für die Weiterverarbeitung werden die Daten aus den `DUMP` Dateien extrahiert u
 abgelegt. 
 - Hierzu wird der [WikiExtraktor](../data/WikiExtractor.py) von Giuseppe Attardi verwendet.  
   Details zur Verwendung sind im [GitHub Repository von Giuseppe Attardi](https://github.com/attardi/wikiextractor) ersichtlich.
-- Die Extraktion der Daten erfolgt mit dem Script [extract.sh](../data/extract.sh).
-  Alternativ können die Befehle aus dem Script direkt in der Anaconda Shell ausgeführt werden. 
+- Die Extraktion der Daten erfolgt mit dem Skript [extract.sh](../data/extract.sh).
+  Alternativ können die Befehle aus dem Skript direkt in der Anaconda Shell ausgeführt werden. 
 - Pro Sprache (de, fr, it, en) werden die ersten 12 Dateien im Verzeichnis [extract](../data/extract) gespeichert. 
   Die Artikeldateien werden als Bestandteil vom Projekt ins Git Repository eingecheckt. 
    
@@ -119,12 +119,12 @@ bereinigt / transformiert:
 7. Der Sprachcode `lang` ergibt sich aus dem Verzeichnis Namen der extrahierten Daten 
 8. Der Artikel Inhalt `content` wird auf 120 Zeichen begrenzet. 
    Die Limite soll bei der Erstellung der Testdaten Sets angegeben werden können.
-9. Artikel mit leerem Inhalt führen bei den Tests zu NaN Fehlern und weden daher herausgefiltert. 
+9. Artikel mit leerem Inhalt führen bei den Tests zu NaN Fehlern und werden daher herausgefiltert. 
 
 Bemerkung zu Regel Nr. 9:
 - Das Problem der Artikel mit leerem Inhalt trat erst bei den Tests mit grossen Datenmengen auf. 
-- Um den Fehler zu reporduzieren wurde der Unit Test [WikiTransformerNaNTest.py](../tests/WikiTransformerNaNTest.py)  erstellt
-  und via Debug Session analyisert. 
+- Um den Fehler zu reproduzieren  wurde der Unit Test [WikiTransformerNaNTest.py](../tests/WikiTransformerNaNTest.py)  erstellt
+  und via Debug Session analysiert. 
 - Anschliessend wurde die neue Transformationsregel Nr. 9 in der [WikiTransformer.py](../data/WikiTransformer.py) Klasse implementiert, 
   bis der Unit Test erfolgreich ausgeführt werden konnte.
 
@@ -141,7 +141,7 @@ url          | URL auf den entsprechenden Wiki Artikel
 title        | Titel des Artikel
 content      | Inhalt des Artikel (Artikel Text)
 
-Für die Tests werden die Spalten **lang** und **content** verwedent. Die anderen Daten sind einzig zu Informationszwecken aufgeführt. 
+Für die Tests werden die Spalten **lang** und **content** verwendet. Die anderen Daten sind einzig zu Informationszwecken aufgeführt. 
 
 
 ### WikiTransformer
@@ -150,7 +150,7 @@ Für die Transformation der Daten wird die Klasse [WikiTransformer.py](../data/W
 - **transform** zum Transformieren der einzelnen Artikel Daten gemäss den Transformationsregeln.
 - **write_csv** zum Speichern der Artikel Daten als CSV Datei.
 
-Mit weiteren Hilfsmethoden und Einstellungen können flexibel Daten transformiert und in belibiger Menge gespeichert werden. 
+Mit weiteren Hilfsmethoden und Einstellungen können flexibel Daten transformiert und in beliebiger  Menge gespeichert werden. 
 Einen guten Einblick in den Funktionsweise der Klasse zeigt auch der dazugehörige Unit Test [WitkTransformerTest.py](../tests/WikiTransformerTest.py). 
 
 WikiTransformer:
@@ -299,7 +299,7 @@ Sprachkombinationen erstellt werden.
 
 ### Testdaten Balance
 Die Modelle sollen auch in Bezug auf die einzelnen Sprachen untersucht werden. Dazu ist es wichtig, dass die Testdaten
-ausgeglichen sind und nicht eine Asymetrie zwischen verschiedenen Sprachen besteht.
+ausgeglichen sind und nicht eine Asymmetrie zwischen verschiedenen Sprachen besteht.
 
 - Mit der Python Klasse [ReportDataBalance.py](../reports/ReportDataBalance.py) werden die CSV Daten eingelesen und die 
 durchschnittliche Anzahl Zeichen sowie die durchschnittliche Anzahl Wörter pro Sprache ermittelt. 

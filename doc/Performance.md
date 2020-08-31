@@ -19,13 +19,13 @@
 
 
 ## Übersicht
-Für die Performance Messungen wurden die folgenden Bibiliotheken verwendet: 
+Für die Performance Messungen wurden die folgenden Bibliotheken verwendet: 
 - Python `time` library für Messung der Geschwindigkeit.
 - Python `tracemalloc` library für Messung des Speicherverbrauchs.
 - Python `psutil` (Process and System utilities) library für die Messung der CPU Auslastung.
 
-Eine interessante Alternative bietet auch die Python `resource` libray. Diese ist aber Unix/Linux spezifisch und kann 
-nicht unter Windows verwendet werden. Diese Einschränkung existiert bei den verwendeten Bibliotheken nicht, diese sind unabhängig vom Betreibssystem verfügbar.  
+Eine interessante Alternative bietet auch die Python `resource` Bibliothek. Diese ist aber Unix/Linux spezifisch und kann 
+nicht unter Windows verwendet werden. Diese Einschränkung existiert bei den verwendeten Bibliotheken nicht, diese sind unabhängig vom Betriebssystem verfügbar.  
 
 Für die Messung der Modelle wurde ein einheitliche Schnittstelle eingeführt. Je Bibliothek wurden die Antwortzeit, der Speicherverbrauch
 und die CPU Auslastung ermittelt. Anschliessend folgen die [Auswertungen](#Auswertungen) der Perfomance Daten.
@@ -43,7 +43,7 @@ und **realiver Zeit** unterschieden werden.
   modernen Systemen normalerweise eine Milli- oder Microsekunde. 
 - Die realtive Zeit wird von `time.clock()` respektive von den `time.perf_counter()` und `time.process_time()` 
   Funktionen zur Verfügung gestellt. Die relative Zeitmessung hat keinen Bezug zum fixen Referenzwert der absoluten Zeit 
-  und kann daher nur für die Messung von Intervallen verwendent werden. Die bisherige `time.clock()` funktion ist 
+  und kann daher nur für die Messung von Intervallen verwendet werden. Die bisherige `time.clock()` funktion ist 
   _Deprecated_ und wird ab Python Version 3.8 nicht mehr zur Verfügung gestellt.
 
 Für die Messung der Dauer wird die Python `time.perf_counter()` Methode verwendet, welche seit der Version 3.3  in Python verfügbar 
@@ -88,7 +88,7 @@ auszugeben.
 
 Die `tracemalloc` Bibliothek ist seit Python Version 3.4 verfügbar und liefert sehr fein granulare Angaben zur **Memory
 Allokation** des laufenden Python Prozesses. Mit Hilfe von zwei Snapshosts kann der aktuelle Memory Verbrauch, der Peak 
-als auch Statistiken zum Speicherbedarf einzelner Befehle (per filename and line number) gemessen werden, wie im 
+als auch Statistiken zum Speicherbedarf einzelner Befehle (per Dateiname oder Zeilennummer) gemessen werden, wie im 
 folgenden Code Ausschnitt dargestellt:
 ```python
 tracemalloc.start()
@@ -140,7 +140,7 @@ ausführt. Daher wird der Wert durch die Anzahl CPU's dividiert.
 #### AbstractSystemMeter
 
 Für die Perfomance Messungen wird die Basisklasse [AbstractSystemMeter.py](../measure/system/AbstractSystemMeter.py) zur Verfügung 
-gestellt. Diese bildet eine gemeinsame Schnittstelle für die einzelnen Perfomamce Messungen:
+gestellt. Diese bildet eine gemeinsame Schnittstelle für die einzelnen Performance  Messungen:
 ```python
 class AbstractSystemMeter:
     """Common system meter interface for all resource monitorings.
@@ -169,8 +169,8 @@ class AbstractSystemMeter:
         raise NotImplementedError("The method is not implemented yet.")
 ```
 
-#### System Meter Hierachie
-Für jede Performance Messung wird eine entpsprechende Unterklasse implementiert:
+#### System Meter Hierarchie
+Für jede Performance Messung wird eine entsprechende Unterklasse implementiert:
 - [CpuSystemMeter.py](../measure/system/CpuSystemMeter.py)
 - [MemorySystemMeter.py](../measure/system/MemorySystemMeter.py)
 - [TimeSystemMeter.py](../measure/system/TimeSystemMeter.py)
@@ -182,12 +182,12 @@ Damit ergibt sich folgenden Klassen Hierarchie:
 ### Durchführung
 
 #### Testdaten
-Als [Testdaten](Testdaten.md) die Texte mit den gemischten Sprachen eingesetzt. Die für die Messungen eingesetzten 
+Als [Testdaten](Testdaten.md) werden die Texte mit den gemischten Sprachen eingesetzt. Die für die Messungen eingesetzten 
 Sets sind im Report Scripts ersichtlich.
 
 #### Reports und Resultate
-Die Performance Messungen werden mit dem [ReportSystemPerformance.py](../reports/ReportSystemPerformance.py) Script ausgeführt. 
-Das  Script kann direkt von der intergrierten Entwicklunsumgebung (z.B. IntelliJ) oder via Shell aufgerufen werden.
+Die Performance Messungen werden mit dem [ReportSystemPerformance.py](../reports/ReportSystemPerformance.py) Skript ausgeführt. 
+Das Skript kann direkt von der integrierten Entwicklungsumgebung (z.B. IntelliJ) oder via Shell aufgerufen werden.
 
 Die Kennzahlen `Time`, `CPU` und `Memory Peak` für alle Modelle nacheinander gemessen. **Jede Kennzahl wird einzeln je 
 Modell ermittelt**. Damit können Seiteneffekte ausgeschlossen werden. Die Messungen werden auf einem Laptop durchgeführt. 
@@ -196,7 +196,7 @@ Die Hardware ist natürlich ein entscheidender Faktor für die absoluten Messwer
 von Bedeutung, da die Bibliotheken **untereinander verglichen** werden sollen. Einzige Bedingung ist, dass die Messungen 
 auf dem gleichen Gerät ausgeführt werden. 
 
-Mit den erwähnten Test Script ist das gegeben. Als Resultat wird ein **Data Frame** mit allen Modellen und deren 
+Mit den erwähnten Test Skript  ist das gegeben. Als Resultat wird ein **Data Frame** mit allen Modellen und deren 
 Messdaten ausgegeben. Zusätzlich werden die Resultate als **CSV Datei** gespeichert.
 
 Report                                                           | Resultat                                              | Beschreibung
@@ -216,13 +216,13 @@ Die Auswertung zeigt die durchschnittliche Antwortzeit pro Aufruf:
 ![ReportSystemPerformanceTime](../reports/graphic/ReportSystemPerformanceTime.png)
 
 #### Interpretation
-- Der Azure Text Analyitics Service wird über das Internet via REST Call aufgerufen und ist daher erwartungsgemäss am langsamsten.
+- Der Azure Text Analytics Service wird über das Internet via REST Call aufgerufen und ist daher erwartungsgemäss am langsamsten.
 - Die anderen Bibliotheken werden innerhalb vom Projekt aufgerufen und sind daher schneller. Trotzdem gibt es auch da grosse 
-Unterschiede:
-- Die LangFromChars Bibilothek ist mit über 60 ms pro Aufruf sehr langsam, gefolgt von LangDetectSpacy mit rund 12 ms.
+Unterschiede.
+- Die LangFromChars Bibliothek  ist mit über 60 ms pro Aufruf sehr langsam, gefolgt von LangDetectSpacy mit rund 12 ms.
 - **Schnell** ist die **LangDetect** Bibilothek mit rund 4 ms.
 - Am **absolut schnellsten** ist die **LangFromStopwords** Bibliothek mit einer durchschnittliche Antwortweit von 0.1 ms. Das liegt
-vor allem am Architekturansatz mit den den Stopwort Listen gegenüber den Machine Learning Verfahren der anderen Bibliotheken.
+vor allem am Architekturansatz mit den Wortlisten gegenüber den Machine Learning Verfahren der anderen Bibliotheken.
 
 
 ### Memory peak 
@@ -231,9 +231,9 @@ Die Auswertung zeigt den maximalen Memory Bedarf der Modelle während der Progno
 
 #### Interpretation
 - Mit über **280 MB** weist die **LangFromChars** Bibliothek **mit Abstand den grössten Speicherbedarf** auf.
-- Die **anderen Bibliotheken** liegen mit 1.3 MB für LangDetectScpace und rund 0.5 MB für die restlichen Bibliotheken 
+- Die **anderen Bibliotheken** liegen mit 1.3 MB für LangDetectSpacy und rund 0.5 MB für die restlichen Bibliotheken 
 **deutlich darunter**.
-- Der vom Azure Text Analyitics Service benötige Speicherbedarf ist vor allem für den REST Aufruf und liegt leicht
+- Der vom Azure Text Analytics  Service benötige Speicherbedarf ist vor allem für den REST Aufruf und liegt leicht
 über dem Bereich der LangDetect und LangFromStopwords Bibliotheken.
    
 
@@ -245,16 +245,16 @@ Die Auswertung zeigt die CPU Auslastung der verschiedenen Modelle während der P
 #### Interpretation
 - Hier liegt der **Azure Text Analyitics** Service im **Vorteil**, da die **Rechenleistung remote** durch den Service 
 geleistet wird. Im Projekt wird nur der REST Call ausgeführt.
-- Die CPU Auslastung der **LangFromChars** Bibilothek ist mit **über 17 MB** mehr als **doppelt so hoch** wie bei den 
-  **restlichen Bibliotheken**, welche rund 8% CPU Auslastung aufgewiesen haben. 
+- Die CPU Auslastung der **LangFromChars** Bibliothek ist mit **über 17 MB** mehr als **doppelt so hoch** wie bei den 
+  **restlichen Bibliotheken**, welche rund 8% CPU Auslastung aufgewiesen. 
 
 
 ### Fazit
-Wenn man alle drei Performance Auswertungen betrachtet, muss man **unterscheiden** zwischem dem Azure Text Analytics 
+Wenn man alle drei Performance Auswertungen betrachtet, muss man **unterscheiden** zwischen dem Azure Text Analytics 
 Service und den anderen Bibliotheken. 
 
 Azure Text Analytics Service:
-- Der Azure Service läuft **remote**, dass heisst **CPU** Auslastung und **Memory Peak** sind **gering**, dafür hat man 
+- Der Azure Service läuft **remote**, das heisst **CPU** Auslastung und **Memory Peak** sind **gering**, dafür hat man 
   eine **langsame Antwortzeit**. 
 - Die Messung der Antwortzeit erfolgte dabei je Aufruf. Azure bietet aber auch an, das mehrere Texte gleichzeitig 
   (mit einem Call) bearbeitet werden.
@@ -265,10 +265,10 @@ Bibliotheken:
 - Hier fällt vor allem die **LangFromChars** Bibliothek mit **schlechten Werten** auf. Der CPU Verbrauch ist doppelt so 
   hoch und der Memory Peak fällt mehr als 250 mal höher aus.
 - Die LangDetectSpacy Bibliothek ist etwas langsamer und benötigt mehr Speicher als die beiden anderen.
-- Absoluten **Spitzenreiter** ist die **LangFromStopwords** Bibliothek, was auf die komplett **andere Architketur** 
+- Absoluten **Spitzenreiter** ist die **LangFromStopwords** Bibliothek, was auf die komplett **einfache Architektur** 
   zurückzuführen ist.
 
-Den Perfomance Resultaten gegeüber stehen natürlich die **Modell Messungen**, welche für die Auswahl der Bibliotheken
+Den Perfomance Resultaten gegen über stehen natürlich die **Modell Messungen**, welche für die Auswahl der Bibliotheken
 **ebenso entscheidend** sind. Details hierzu siehe [Modelle](Modelle.md). 
 
 ---
